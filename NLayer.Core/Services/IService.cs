@@ -18,7 +18,7 @@ namespace NLayer.Core.Services
         Task<bool> AnyAsync(Expression<Func<T, bool>> expression);
         Task AddAsync(T entity);
         Task AddRangeAsync(IEnumerable<T> entities);
-        Task UpdateAsync(T entity); //  change the state of the entity, returns Task because for Repository, Core didn't have these methods.
+        Task UpdateAsync(T entity); // Now Task is used because the results will be reflected to the database
         Task RemoveAsync(T entity);
         Task RemoveRangeAsync(IEnumerable<T> entities);
     }
