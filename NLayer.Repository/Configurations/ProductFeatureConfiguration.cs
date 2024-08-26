@@ -17,7 +17,7 @@ namespace NLayer.Repository.Configurations
             builder.Property(x => x.Id).UseIdentityColumn();
             builder.HasOne(x => x.Product).WithOne(x => x.ProductFeature).HasForeignKey<ProductFeature>(x => x.ProductId);
 
-            builder.ToTable("Product Features");
+            builder.ToTable("ProductFeatures");
         }
     }
 }
