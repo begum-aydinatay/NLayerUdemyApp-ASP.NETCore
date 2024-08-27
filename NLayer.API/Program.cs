@@ -14,6 +14,7 @@ using FluentValidation.AspNetCore;
 using NLayer.Service.Validations;
 using NLayer.API.Filters;
 using Microsoft.AspNetCore.Mvc;
+using NLayer.API.Middlewares;
 
 namespace NLayer.API
 {
@@ -33,6 +34,8 @@ namespace NLayer.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped(typeof(NotFoundFilter<>));
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
@@ -67,9 +70,10 @@ namespace NLayer.API
             }
 
             app.UseHttpsRedirection();
+            
+            app.UseCustomException();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
