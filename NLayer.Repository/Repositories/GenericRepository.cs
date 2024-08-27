@@ -14,10 +14,10 @@ namespace NLayer.Repository.Repositories
         protected readonly AppDbContext _context;
         private readonly DbSet<T> _dbSet;
 
-        public GenericRepository(AppDbContext context, DbSet<T> dbSet)
+        public GenericRepository(AppDbContext context)
         {
             _context = context;
-            _dbSet = context.Set<T>();
+            _dbSet = _context.Set<T>();
         }
 
         public async Task AddAsync(T entity)
