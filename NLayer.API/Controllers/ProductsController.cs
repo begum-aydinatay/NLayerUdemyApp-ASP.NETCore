@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NLayer.API.Filters;
 using NLayer.Core.DTOs;
@@ -63,7 +62,7 @@ namespace NLayer.API.Controllers
         public async Task<IActionResult> Remove(int id)
         {
             var product = await _service.GetByIdAsync(id);
-            
+
             if (product == null)
             {
                 return CreateActionResult(CustomResponseDto<NoContentDto>.Failure(404, "No product with id=" + id + " could be found."));

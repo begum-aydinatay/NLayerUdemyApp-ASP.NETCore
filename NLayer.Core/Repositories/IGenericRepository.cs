@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 
 namespace NLayer.Core.Repositories
 {
-    public interface IGenericRepository<T> where T : class 
+    public interface IGenericRepository<T> where T : class
     {
         // x -> f(x) being isIdBiggerY(x) -> true/false
         // when IQueryable is used, you can do prodRepo.where(x->x.id>5).OrderBy.ToListAsync()

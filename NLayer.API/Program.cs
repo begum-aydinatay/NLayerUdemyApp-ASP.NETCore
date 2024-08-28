@@ -1,23 +1,16 @@
 
 using System.Reflection;
-using Microsoft.EntityFrameworkCore;
-using NLayer.Repository.UnitOfWorks;
-using NLayer.Core.UnitOfWorks;
-
-using NLayer.Core.Repositories;
-using NLayer.Core.Services;
-using NLayer.Repository;
-using NLayer.Repository.Repositories;
-using NLayer.Service.Services;
-using NLayer.Service.Mapping;
-using FluentValidation.AspNetCore;
-using NLayer.Service.Validations;
-using NLayer.API.Filters;
-using Microsoft.AspNetCore.Mvc;
-using NLayer.API.Middlewares;
-using Autofac.Extensions.DependencyInjection;
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using NLayer.API.Filters;
+using NLayer.API.Middlewares;
 using NLayer.API.Modules;
+using NLayer.Repository;
+using NLayer.Service.Mapping;
+using NLayer.Service.Validations;
 
 namespace NLayer.API
 {
@@ -29,7 +22,7 @@ namespace NLayer.API
 
             // Add services to the container.
 
-            builder.Services.AddControllers(options => 
+            builder.Services.AddControllers(options =>
                 options.Filters.Add(new ValidateFilterAttribute())).AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<ProductDtoValidator>());
             builder.Services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -65,7 +58,7 @@ namespace NLayer.API
             }
 
             app.UseHttpsRedirection();
-            
+
             app.UseCustomException();
 
             app.UseAuthorization();

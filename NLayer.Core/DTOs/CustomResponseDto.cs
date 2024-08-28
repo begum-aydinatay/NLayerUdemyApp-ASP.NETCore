@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace NLayer.Core.DTOs
 {
@@ -24,7 +19,7 @@ namespace NLayer.Core.DTOs
         }
 
         //when you don't want to return any data
-        public static CustomResponseDto<T> Success(int statusCode) 
+        public static CustomResponseDto<T> Success(int statusCode)
         {
             return new CustomResponseDto<T> { StatusCode = statusCode };
         }
