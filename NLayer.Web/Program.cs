@@ -1,36 +1,57 @@
+using Autofac.Extensions.DependencyInjection;
+using Autofac;
+using NLayer.Web.Modules;
+using Microsoft.EntityFrameworkCore;
+using NLayer.Repository;
+using NLayer.Service.Mapping;
+using System.Reflection;
+
 namespace NLayer.Web
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+	public class Program
+	{
+		public static void Main(string[] args)
+		{
+			var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
+			// Add services to the container.
+			builder.Services.AddControllersWithViews();
+			builder.Services.AddAutoMapper(typeof(MapProfile));
 
-            var app = builder.Build();
+			builder.Services.AddDbContext<AppDbContext>(x =>
+			{
+				x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"), option =>
+				{
+					option.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
+				});
+			});
 
-            // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+			builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+			builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder => containerBuilder.RegisterModule(new RepoServiceModule()));
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
 
-            app.UseRouting();
+			var app = builder.Build();
 
-            app.UseAuthorization();
+			// Configure the HTTP request pipeline.
+			if (!app.Environment.IsDevelopment())
+			{
+				app.UseExceptionHandler("/Home/Error");
+				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+				app.UseHsts();
+			}
 
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+			app.UseHttpsRedirection();
+			app.UseStaticFiles();
 
-            app.Run();
-        }
-    }
+			app.UseRouting();
+
+			app.UseAuthorization();
+
+			app.MapControllerRoute(
+				name: "default",
+				pattern: "{controller=Home}/{action=Index}/{id?}");
+
+			app.Run();
+		}
+	}
 }
