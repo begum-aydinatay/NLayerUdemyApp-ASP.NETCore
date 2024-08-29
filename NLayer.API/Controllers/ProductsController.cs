@@ -31,7 +31,7 @@ namespace NLayer.API.Controllers
         {
             var products = await _service.GetAllAsync();
             var productsDtos = _mapper.Map<List<ProductDto>>(products.ToList());
-            return CreateActionResult<List<ProductDto>>(CustomResponseDto<List<ProductDto>>.Success(200, productsDtos));
+            return CreateActionResult(CustomResponseDto<List<ProductDto>>.Success(200, productsDtos));
         }
 
         [ServiceFilter(typeof(NotFoundFilter<Product>))]
